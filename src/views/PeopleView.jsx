@@ -1,10 +1,11 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { APIService } from "../services/API.service";
 
 export const PeopleView = (props) => {
-  const [people, setPeople] = React.useState([]);
+  const [people, setPeople] = useState({});
 
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchPeople = async () => {
     let data = await APIService.getList("people");
@@ -12,7 +13,7 @@ export const PeopleView = (props) => {
     setIsLoading(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchPeople();
   }, []);
 
@@ -27,10 +28,7 @@ export const PeopleView = (props) => {
             <div key={id} className="card col-sm-4">
               <div className="card-body">
                 <h4>{name}</h4>
-                <ul>
-                  <li class="list-group-item">Gender: {gender}</li>
-                  <li class="list-group-item">Age: {age}</li>
-                </ul>
+                <Link to={`${id}`}> View More </Link>
               </div>
             </div>
           ))}

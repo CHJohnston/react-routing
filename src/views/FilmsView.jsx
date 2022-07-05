@@ -1,9 +1,10 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { APIService } from "../services/API.service";
 
 export const FilmsView = (props) => {
-  const [list, setList] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [list, setList] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchFilms = async () => {
     let data = await APIService.getList("films");
@@ -11,7 +12,7 @@ export const FilmsView = (props) => {
     setIsLoading(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchFilms();
   }, []);
 
@@ -28,7 +29,7 @@ export const FilmsView = (props) => {
                 <div className="card-body">
                   <h3>{original_title}</h3>
                   <small>{title}</small>
-                  <p>{description}</p>
+                  <Link to={`${id}`}> View More </Link>
                 </div>
               </div>
             )

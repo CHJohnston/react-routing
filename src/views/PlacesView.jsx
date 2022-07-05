@@ -1,9 +1,10 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { APIService } from "../services/API.service";
 
 export const PlacesView = (props) => {
-  const [place, setPlace] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [place, setPlace] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchPleaces = async () => {
     let data = await APIService.getList("locations");
@@ -11,7 +12,7 @@ export const PlacesView = (props) => {
     setIsLoading(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchPleaces();
   }, []);
 
@@ -23,15 +24,12 @@ export const PlacesView = (props) => {
         <h1>Locations</h1>
         <div className="row p-4">
           {place.map(({ id, name, climate, terrain, original_title }) => (
-            <div key={id} className="card col-sm-4">
-              <div className="card-body">
-                <h3>{name}</h3>
-                <ul>
-                  <li>Climate: {climate}</li>
-                  <li>Terrain: {terrain}</li>
-                </ul>
-              </div>
-            </div>
+            <ul key={id} className="list-group">
+              <li className="list-group-item">
+                {name}
+                <Link to={`${id}`}> View More </Link>
+              </li>
+            </ul>
           ))}
         </div>
       </main>

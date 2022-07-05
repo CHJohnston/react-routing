@@ -1,18 +1,19 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { APIService } from "../services/API.service";
+import { Link } from "react-router-dom";
 
 export const VehiclesView = (props) => {
-  const [vehicle, setVehicles] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [vehicle, setVehicles] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchFilms = async () => {
+  const fetchVehicles = async () => {
     let data = await APIService.getList("vehicles");
     if (data) setVehicles(data);
     setIsLoading(false);
   };
 
-  React.useEffect(() => {
-    fetchFilms();
+  useEffect(() => {
+    fetchVehicles();
   }, []);
 
   if (isLoading) {
@@ -23,13 +24,12 @@ export const VehiclesView = (props) => {
         <h1>Vehicles</h1>
         <div className="row p-4">
           {vehicle.map(({ id, name, description, vehicle_class, pilot }) => (
-            <div key={id} className="card col-sm-4">
-              <div className="card-body">
-                <h3>{name}</h3>
-                <h4>Vehicle Class: {vehicle_class}</h4>
-                <p>{description}</p>
-              </div>
-            </div>
+            <ul key={id} className="list-group">
+              <li className="list-group-item">
+                {name}
+                <Link to={`${id}`}> View More </Link>
+              </li>
+            </ul>
           ))}
         </div>
       </main>
